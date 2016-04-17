@@ -2,15 +2,25 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.utils import timezone
+import markdown
 
 # Create your models here.
 
 class Post(models.Model):
+    
+    ''' This model represents a single blog post.
+
+    Do no write to the html field directly, it is rendered by
+    parsing markdown in the body field
+
+    '''
 
     created = models.DateTimeField(blank=True)
     published = models.DateTimeField(null=True, blank=True)
     is_published = models.BooleanField(default=True)
     modified = models.DateTimeField(blank=True)
+
+    html = models.TextField(blank=True, null=True, editable=False)
 
     title = models.TextField(unique=True)
     body = models.TextField()
@@ -37,6 +47,10 @@ class Post(models.Model):
 
         self.modified = timezone.now()
         self.slug = self._compute_slug()
+
+        html = markdown.markdown(self.body, output_format='html5')
+        self.html = html
+
 
         if self.is_published and self.published is None:
             self.published = timezone.now() 

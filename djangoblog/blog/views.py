@@ -36,3 +36,20 @@ class PostListView(View):
         }
 
         return render(request, 'post_list.html', ctx)
+
+class CSSView(View):
+
+    def get(self, request):
+
+        colors = {
+            'base':'#7F2900',
+            'light':'#FF864C',
+            'bright':'#FF5200',
+            'dark':'#7F4326',
+            'saturated':'#CC4200',
+        }
+
+        ctx = {'colors':colors}
+        rsp = render(request, 'screen.css', ctx, content_type="text/css")
+
+        return rsp

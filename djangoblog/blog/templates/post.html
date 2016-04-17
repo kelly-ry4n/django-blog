@@ -2,13 +2,14 @@
 
 
 {% block content %}
+    {{ block.super }}
     <div class="post">
         <div class="post-title">
             <a href="{{ post.get_absolute_url }}">{{ post.title }} </a>
         </div>
 
         <div class="post-body">
-            {{ post.body }}
+            {{ post.html | safe }}
         </div>
 
         <div class="post-tags">
