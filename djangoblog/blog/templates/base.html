@@ -8,14 +8,26 @@
     {% block css %}
 
         {% if color %}
-            <link rel="stylesheet" href="/styles/{{color}}/screen.css" type="text/css" %}
+            <link rel="stylesheet" href="/styles/{{color}}/screen.css" type="text/css"> 
         {% else %}
-            <link rel="stylesheet" href="/styles/screen.css" type="text/css" %}
+            <link rel="stylesheet" href="/styles/screen.css" type="text/css" %}>
         {% endif %}
 
     {% endblock %}
 
     {% block javascript %}
+
+        <script type="text/javascript" src="{% static "blog/jscolor.js" %}">
+        </script>
+        <script type="text/javascript">
+        
+            function update(color) {
+                console.log(color);
+                path = window.location.pathname;
+                window.location.href = '/' + color;
+            };
+
+        </script>
 
     {% endblock %}
 </head>
@@ -31,12 +43,15 @@
         <div id="nav-wrap">
             <div id="nav">
                 {% block nav %}
+
+                        <input onchange="update(this.jscolor)" class="jscolor" value="{{color}}">
+
                     {% for post in nav_posts %}
-                    {% if color %}
-                        <a class="nav-link" href="{{ post.get_absolute_url }}/{{color}}"> {{post.title}}</a><br/>
-                    {% else %}
-                        <a class="nav-link" href="{{ post.get_absolute_url }}"> {{post.title}}</a><br/>
-                    {% endif %}
+                        {% if color %}
+                            <a class="nav-link" href="{{ post.get_absolute_url }}/{{color}}"> {{post.title}}</a><br/>
+                        {% else %}
+                            <a class="nav-link" href="{{ post.get_absolute_url }}"> {{post.title}}</a><br/>
+                        {% endif %}
 
                     {% endfor %}
 
