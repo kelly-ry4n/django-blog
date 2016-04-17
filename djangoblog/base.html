@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    {% block css %}
+
+    {% endblock %}
+
+    {% block javascript %}
+
+    {% endblock %}
+</head>
+<body>
+
+    <div id="wrapper">
+        <div id="nav">
+            {% block nav %}
+
+            {% enblock %}
+        </div>
+        <div id="content">
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    </div>
+    
+</body>
+</html>

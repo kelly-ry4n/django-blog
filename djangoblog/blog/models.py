@@ -7,14 +7,15 @@ from django.utils import timezone
 
 class Post(models.Model):
 
-    created = models.DateTimeField()
+    created = models.DateTimeField(blank=True)
     published = models.DateTimeField(null=True, blank=True)
-    modified = models.DateTimeField()
+    is_published = models.BooleanField(default=True)
+    modified = models.DateTimeField(blank=True)
 
     title = models.TextField(unique=True)
     body = models.TextField()
 
-    slug = models.CharField(max_length=63)
+    slug = models.CharField(max_length=63, blank=True)
     tags = models.ManyToManyField('blog.Tag')
 
 
@@ -37,11 +38,18 @@ class Post(models.Model):
         self.modified = timezone.now()
         self.slug = self._compute_slug()
 
+        if self.is_published and self.published is None:
+            self.published = timezone.now() 
+
         super(Post, self).save(*args, **kwargs)
 
     def __unicode__(self):
 
-        return "{} - {}".format(self.title, self.tags)
+        tags = self.tags.all()
+
+        tags_str = ', '.join([str(tag) for tag in tags])
+
+        return "{} - [{}]".format(self.title, tags_str)
 
     def get_absolute_url(self):
 
