@@ -7,7 +7,11 @@
 
     {% block css %}
 
-        <link rel="stylesheet" href="/styles/screen.css" type="text/css" %}
+        {% if color %}
+            <link rel="stylesheet" href="/styles/{{color}}/screen.css" type="text/css" %}
+        {% else %}
+            <link rel="stylesheet" href="/styles/screen.css" type="text/css" %}
+        {% endif %}
 
     {% endblock %}
 
@@ -28,7 +32,11 @@
             <div id="nav">
                 {% block nav %}
                     {% for post in nav_posts %}
+                    {% if color %}
+                        <a class="nav-link" href="{{ post.get_absolute_url }}/{{color}}"> {{post.title}}</a><br/>
+                    {% else %}
                         <a class="nav-link" href="{{ post.get_absolute_url }}"> {{post.title}}</a><br/>
+                    {% endif %}
 
                     {% endfor %}
 
